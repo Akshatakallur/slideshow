@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slideshow</title>
+<style>
+.slideshow-container {
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.slides {
+    display: flex;
+    gap:10px;
+    transition: transform 0.5s ease;
+}
+
+.slides img {
+    width: 100%;
+    height: auto;
+}
+
+button {
+    margin: 10px;
+    background: linear-gradient(red,black);
+    color:white
+}
+
+</style>
+</head>
+<body>
+<div class="slideshow-container">
+
+    <button id="startStopBtn">Start Slideshow</button>
+    <button id="prevBtn">Previous</button>
+    <button id="nextBtn">Next</button>
+    <div class="slides">
+        <img src="image1.jpg" alt="Image 1"><br>
+        <img src="image2.jpg" alt="Image 2"><br>
+        <img src="image3.jpg" alt="Image 3"><br>
+        <img src="image4.jpg" alt="Image 4"><br>
+        <img src="image5.jpg" alt="Image 5">
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    const slides = document.querySelector('.slides');
+const startStopBtn = document.getElementById('startStopBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+let isPlaying = true;
+let slideIndex = 0;
+let interval;
+
+const images = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg', 'image5.jpeg']; // Add more image URLs
+
+function showSlides() {
+    slides.style.transform = `translateX(-${slideIndex * 100}%)`;
+}
+
+function startStopSlideshow() {
+    if (isPlaying) {
+        startStopBtn.textContent = 'Start Slideshow';
+        clearInterval(interval);
+    } else {
+        startStopBtn.textContent = 'Stop Slideshow';
+        interval = setInterval(() => {
+            slideIndex = (slideIndex + 1) % images.length;
+            showSlides();
+        }, 1000); 
+    }
+    isPlaying = !isPlaying;
+}
+
+function prevSlide() {
+    clearInterval(interval);
+    slideIndex = (slideIndex - 1 + images.length) % images.length;
+    showSlides();
+}
+
+function nextSlide() {
+    clearInterval(interval);
+    slideIndex = (slideIndex + 1) % images.length;
+    showSlides();
+}
+
+startStopBtn.addEventListener('click', startStopSlideshow);
+prevBtn.addEventListener('click', prevSlide);
+nextBtn.addEventListener('click', nextSlide);
+
+showSlides();
+
+
+</script>
+
